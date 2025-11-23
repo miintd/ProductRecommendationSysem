@@ -1,97 +1,88 @@
 
 """
-    Tạo / cập nhật file users_expanded.csv phục vụ ĐĂNG KÝ + ĐĂNG NHẬP
+    Tạo file user_expanded.csv
 """
-import pandas as pd
-from pathlib import Path
-from datetime import datetime
-import hashlib
+import csv          # Thư viện làm việc với file CSV (đọc / ghi)
+import random       # Thư viện tạo số/ngẫu nhiên
+import string       # Thư viện chứa các hằng về chữ cái, chữ số, v.v.
 
-USERS_PATH = Path("users_expanded.csv")
+# Hàm tạo username ngẫu nhiên
+def generate_username():
+    # Danh sách tên (first name)
+    first_names = ['john', 'jane', 'alex', 'mike', 'sara', 'emma', 'david', 'lisa', 'chris', 'amy', 
+                  'ryan', 'katie', 'tom', 'olivia', 'daniel', 'sophia', 'james', 'mia', 'robert', 'linda',
+                  'william', 'elizabeth', 'matthew', 'jennifer', 'andrew', 'michelle', 'joshua', 'amanda',
+                  'christopher', 'melissa', 'kevin', 'stephanie', 'brian', 'rebecca', 'justin', 'laura',
+                  'eric', 'heather', 'jason', 'nicole', 'jeffrey', 'emily', 'steven', 'rachel', 'timothy',
+                  'samantha', 'patrick', 'hannah', 'richard', 'victoria']
+    
+    # Danh sách họ (last name)
+    last_names = ['smith', 'johnson', 'williams', 'brown', 'jones', 'garcia', 'miller', 'davis', 'rodriguez',
+                 'martinez', 'hernandez', 'lopez', 'gonzalez', 'wilson', 'anderson', 'thomas', 'taylor',
+                 'moore', 'jackson', 'martin', 'lee', 'perez', 'thompson', 'white', 'harris', 'sanchez',
+                 'clark', 'ramirez', 'lewis', 'robinson', 'walker', 'young', 'allen', 'king', 'wright',
+                 'scott', 'torres', 'nguyen', 'hill', 'flores', 'green', 'adams', 'nelson', 'baker', 'hall',
+                 'rivera', 'campbell', 'mitchell', 'carter', 'roberts']
+    
+    # random.choice(...) chọn ngẫu nhiên 1 phần tử trong list
+    # random.randint(10, 999) tạo số ngẫu nhiên từ 10 đến 999
+    # Username dạng: first_last_XXX  (vd: john_smith_527)
+    return f"{random.choice(first_names)}_{random.choice(last_names)}_{random.randint(10, 999)}"
 
+# Hàm tạo password ngẫu nhiên
+def generate_password(length=10):
+    # Tập ký tự dùng để tạo password: chữ cái + số + ký tự đặc biệt
+    characters = string.ascii_letters + string.digits + "!@#$%&*"
+    # Ghép ngẫu nhiên 'length' ký tự lại thành 1 chuỗi password
+    return ''.join(random.choice(characters) for _ in range(length))
 
-def init_user_table():
-    """
-    Khởi tạo file users_expanded.csv nếu chưa tồn tại.
-    Cột gồm: user_id, username, email, password_hash, created_at
-    """
-    if not USERS_PATH.exists():
-        df = pd.DataFrame(
-            columns=["user_id", "username", "email", "password_hash", "created_at"]
-        )
-        df.to_csv(USERS_PATH, index=False, encoding="utf-8")
-        print("Khởi tạo file 'users_expanded.csv' trống thành công.")
+# Hàm tạo email dựa trên username
+def generate_email(username):
+    # Danh sách domain email có thể dùng
+    domains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'icloud.com', 
+               'protonmail.com', 'aol.com', 'zoho.com', 'mail.com', 'yandex.com']
+    # username dạng: first_last_số → tách bằng dấu "_"
+    # username.split('_')[0] = first name, [1] = last name
+    # Email dạng: first.last@domain  (vd: john.smith@gmail.com)
+    return f"{username.split('_')[0]}.{username.split('_')[1]}@{random.choice(domains)}".lower()
 
+# ====== Generate data cho 1000 users ======
+users_data = []   # List để lưu dict thông tin từng user
 
-def hash_password(password: str) -> str:
-    """
-    Hash mật khẩu để KHÔNG lưu plain text.
-    Có thể thay bằng bcrypt / passlib nếu dùng thật.
-    """
-    return hashlib.sha256(password.encode("utf-8")).hexdigest()
+for user_id in range(1, 1001):  # user_id từ 1 đến 1000
+    username = generate_username()      # tạo username ngẫu nhiên
+    password = generate_password()      # tạo password ngẫu nhiên
+    email = generate_email(username)    # tạo email từ username
+    
+    # Thêm 1 user (kiểu dict) vào list users_data
+    users_data.append({
+        'user_id': user_id,
+        'username': username,
+        'password': password,
+        'email': email
+    })
 
+# ====== Ghi dữ liệu ra file CSV ======
+filename = 'users_expanded.csv'
+with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
+    # Định nghĩa tên các cột trong file CSV
+    fieldnames = ['user_id', 'username', 'password', 'email']
+    # Tạo đối tượng writer dạng DictWriter (ghi từng dòng là 1 dict)
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    
+    writer.writeheader()           # ghi dòng header (tên cột)
+    for user in users_data:
+        writer.writerow(user)      # ghi từng user (dict) thành 1 dòng trong CSV
 
-def register_user(username: str, email: str, password: str) -> bool:
-    """
-    Hàm dùng cho ĐĂNG KÝ:
-    - Tạo user mới nếu username & email chưa tồn tại.
-    - Trả về True nếu thành công, False nếu bị trùng.
-    """
-    init_user_table()
-    df = pd.read_csv(USERS_PATH)
+print(f" File '{filename}' đã được tạo thành công!")
 
-    # Check trùng username hoặc email
-    if not df.empty:
-        if (df["username"] == username).any():
-            print("Username đã tồn tại.")
-            return False
-        if (df["email"] == email).any():
-            print("Email đã tồn tại.")
-            return False
-
-    # Sinh user_id mới
-    if df.empty:
-        new_id = 1
-    else:
-        new_id = int(df["user_id"].max()) + 1
-
-    new_row = {
-        "user_id": new_id,
-        "username": username,
-        "email": email,
-        "password_hash": hash_password(password),
-        "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-    }
-
-    df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
-    df.to_csv(USERS_PATH, index=False, encoding="utf-8")
-    print(f"Tạo user mới thành công, user_id = {new_id}")
-    return True
-
-
-def check_login(username_or_email: str, password: str) -> bool:
-    """
-    Hàm dùng cho ĐĂNG NHẬP:
-    - username_or_email: user nhập username HOẶC email
-    - password: mật khẩu plain text từ form
-    Trả về True nếu login đúng, False nếu sai.
-    """
-    if not USERS_PATH.exists():
-        print("Chưa có file users_expanded.csv.")
-        return False
-
-    df = pd.read_csv(USERS_PATH)
-    if df.empty:
-        print("Chưa có user nào trong hệ thống.")
-        return False
-
-    pwd_hash = hash_password(password)
-    mask = (
-        ((df["username"] == username_or_email) |
-         (df["email"] == username_or_email))
-        & (df["password_hash"] == pwd_hash)
-    )
-    return mask.any()
+# ====== In thử 5 dòng đầu để preview trên console ======
+print("\n Preview (5 users đầu tiên):")
+print("user_id,username,password,email")
+for i in range(5):
+    user = users_data[i]
+    # In dạng CSV: user_id,username,password,email
+    print(f"{user['user_id']},{user['username']},{user['password']},{user['email']}")
 """
     Tạo file purchases_expanded.csv
 """
@@ -397,4 +388,3 @@ print(df.head(10)[["product_id", "description", "color", "category", "price", "r
 
 #Có cách nào cải thiện việc extract category không?"
 # ==>Có thể dùng ML để phân loại tự động từ description hoặc dùng computer vision để phân tích ảnh"
-
