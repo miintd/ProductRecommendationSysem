@@ -24,8 +24,8 @@ This project develops a product recommendation system for an ecommerce platform.
   - Prepare data set (browsing_history_expanded.csv, products_expanded.csv)
   - Prepare the slides for the presentation
 - Lê Cẩm Tú: 16.5%
+  - Find the idea for web design 
   -Prepare data set (3 file csv remain)
-  -Find the idea for web design
 - Đào Minh Dũng: 16.5%
   -Convert design to code
   -Responsible for the product display module
