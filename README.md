@@ -24,20 +24,20 @@ This project develops a product recommendation system for an ecommerce platform.
   - Prepare data set (browsing_history_expanded.csv, products_expanded.csv)
   - Prepare the slides for the presentation
 - Lê Cẩm Tú: 16.5%
-  - Find the idea for web design 
-  -Prepare data set (3 file csv remain)
+  - Find the idea for web design
+  - Prepare data set (3 file csv remain)
 - Đào Minh Dũng: 16.5%
-  -Convert design to code
-  -Responsible for the product display module
-  -Responsible for displaying product images in the product listing
-  -Responsible for the main interface / landing page UI
-  -Responsible for the feedback interface
+  - Responsible for the product display module
+  - Responsible for displaying product images in the product listing
+  - Responsible for the main interface / landing page UI
+  - Responsible for the feedback interface
+  -Convert design to code 
 - Phạm Thu Hường: 16.5%
-  -Responsible for:
-    -Post-processing and Result Visualization
-    -Running the Recommendation Algorithms
-    -Fetching User-Interacted Products
-  -Prepare the slides for presentation 
+  - Prepare the slides for presentation 
+  - Responsible for:
+    - Post-processing and Result Visualization
+    - Running the Recommendation Algorithms
+    - Fetching User-Interacted Products
 ## 3. Instructions for installing and running the program
 ### Prerequisites
 - Python 3.
