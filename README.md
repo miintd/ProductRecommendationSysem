@@ -57,7 +57,7 @@ Python 3.12
 ### Required libraries
 Install libraries from file 'requirements.txt'
 ```bash
-pip install -r requirement
+pip install -r requirement.txt
 ```
 ### Running the Application
 1. Clone repository
