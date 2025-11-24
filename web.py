@@ -1,7 +1,3 @@
-# ------------------------------------------------------------
-# Streamlit UI for Product Recommender System (Optimized)
-# ------------------------------------------------------------
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -9,10 +5,8 @@ import os
 import base64
 from typing import List
 
-# ===== CONFIGURATION =====
 st.set_page_config(page_title="Product Recommender", layout="wide")
 
-# ===== CONSTANTS =====
 CSV_FILES = {
     'users': 'users_expanded.csv',
     'products': 'products_expanded.csv',
@@ -21,7 +15,6 @@ CSV_FILES = {
     'browsing_history': 'browsing_history_expanded.csv'
 }
 
-# ===== SESSION STATE =====
 if 'logged_in' not in st.session_state:
     st.session_state.update({
         'logged_in': False,
@@ -128,17 +121,14 @@ def register_user(username, password, email):
     """Register new user"""
     users_df = load_users()
     
-    # Check if username already exists
     if not users_df.empty and username in users_df['username'].values:
         return False, "Tên đăng nhập đã tồn tại"
     
-    # Generate new user_id
     if users_df.empty:
         new_user_id = 1001
     else:
         new_user_id = users_df['user_id'].max() + 1
     
-    # Add new user
     new_user = pd.DataFrame([{
         'user_id': new_user_id,
         'username': username,
@@ -187,7 +177,6 @@ def get_product_images(product_id: int, product_images_df: pd.DataFrame) -> List
 def render_local_image(path: str, css_class: str) -> None:
     """Render local image with fixed size using base64 + <img>."""
     if not path or not os.path.exists(path):
-        # fallback
         url = "https://via.placeholder.com/400x300?text=No+Image"
         st.markdown(
             f'<img src="{url}" class="{css_class}">',
@@ -306,14 +295,12 @@ def render_product_card(product, product_images_df, user_id, key_prefix):
     with st.container():
         st.markdown('<div class="product-card">', unsafe_allow_html=True)
 
-        # Ảnh sản phẩm (full chiều ngang, cố định chiều cao, crop đẹp)
         images = get_product_images(product["product_id"], product_images_df)
         if images:
             render_local_image(images[0], "product-img")
         else:
             render_local_image(None, "product-img")
 
-        # Thông tin
         st.markdown(f'**{product.get("product_name", "")}**')
         st.markdown(f'**${product.get("price", "N/A")}** · ⭐ {product.get("rating", "N/A")}')
         st.markdown(f'*{product.get("category", "N/A")}*')
@@ -354,7 +341,6 @@ def show_product_detail(product_id: int, products_df: pd.DataFrame, product_imag
 
     product = product.iloc[0]
 
-    # Tiêu đề
     st.header(product['product_name'])
 
     col_img, col_info = st.columns([1.2, 1])
@@ -368,7 +354,6 @@ def show_product_detail(product_id: int, products_df: pd.DataFrame, product_imag
 
         if product_images:
 
-            # Nếu chưa có ảnh chọn → đặt mặc định
             if "selected_image" not in st.session_state:
                 st.session_state.selected_image = 0
 
@@ -381,11 +366,7 @@ def show_product_detail(product_id: int, products_df: pd.DataFrame, product_imag
 
             for idx, path in enumerate(product_images):
                 with thumb_cols[idx]:
-
-                    # Viền highlight nếu ảnh được chọn
                     border = "3px solid red" if idx == st.session_state.selected_image else "1px solid #ccc"
-
-                    # Hiển thị thumbnail nhỏ
                     st.markdown(
                         f"""
                         <div style="border:{border}; padding:2px; border-radius:6px; margin-bottom:4px;">
@@ -513,13 +494,11 @@ def get_recommendations(user_id: int, algorithm: str, data: dict):
                 num_users = users_df["user_id"].nunique() if not users_df.empty else 1000
                 num_products = products_df["product_id"].nunique() if not products_df.empty else 1000
 
-                # demo: sample bớt sản phẩm
                 sample_size = min(50, len(products_df))
                 sample_products = products_df.sample(sample_size, random_state=42).copy()
 
                 st.info(f"Đang xử lý {sample_size} sản phẩm bằng mô hình Multi-Modal...")
 
-                # DEMO: tạo score random (thay bằng infer thật nếu bạn có model)
                 sample_products["score"] = np.random.random(len(sample_products))
                 sample_products["source"] = "Multi-Modal"
                 return sample_products
@@ -570,7 +549,6 @@ color: white;
 def main():
     data = load_data()
     
-    # Not logged in - show landing page
     if not st.session_state.logged_in:
         render_hero_section()
         
@@ -580,7 +558,6 @@ def main():
         render_feedback_section()
         return
     
-    # Logged in
     user_id = st.session_state.user_id
     
     render_cart()
@@ -628,7 +605,6 @@ def main():
         st.session_state.algorithm = algorithm
         st.rerun()
 
-    
     purchased_ids = []
     if not data['purchases'].empty:
         purchased_ids = data['purchases'][data['purchases']["user_id"] == user_id]["product_id"].unique()
@@ -659,3 +635,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
