@@ -1,11 +1,10 @@
 """
     Tạo file user_expanded.csv
 """
-import csv          # Thư viện làm việc với file CSV (đọc / ghi)
-import random       # Thư viện tạo số/ngẫu nhiên
-import string       # Thư viện chứa các hằng về chữ cái, chữ số, v.v.
+import csv         
+import random      
+import string     
 
-# Hàm tạo username ngẫu nhiên
 def generate_username():
     # Danh sách tên (first name)
     first_names = ['john', 'jane', 'alex', 'mike', 'sara', 'emma', 'david', 'lisa', 'chris', 'amy', 
@@ -23,16 +22,11 @@ def generate_username():
                  'scott', 'torres', 'nguyen', 'hill', 'flores', 'green', 'adams', 'nelson', 'baker', 'hall',
                  'rivera', 'campbell', 'mitchell', 'carter', 'roberts']
     
-    # random.choice(...) chọn ngẫu nhiên 1 phần tử trong list
-    # random.randint(10, 999) tạo số ngẫu nhiên từ 10 đến 999
-    # Username dạng: first_last_XXX  (vd: john_smith_527)
     return f"{random.choice(first_names)}_{random.choice(last_names)}_{random.randint(10, 999)}"
 
 # Hàm tạo password ngẫu nhiên
 def generate_password(length=10):
-    # Tập ký tự dùng để tạo password: chữ cái + số + ký tự đặc biệt
     characters = string.ascii_letters + string.digits + "!@#$%&*"
-    # Ghép ngẫu nhiên 'length' ký tự lại thành 1 chuỗi password
     return ''.join(random.choice(characters) for _ in range(length))
 
 # Hàm tạo email dựa trên username
@@ -40,20 +34,16 @@ def generate_email(username):
     # Danh sách domain email có thể dùng
     domains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'icloud.com', 
                'protonmail.com', 'aol.com', 'zoho.com', 'mail.com', 'yandex.com']
-    # username dạng: first_last_số → tách bằng dấu "_"
-    # username.split('_')[0] = first name, [1] = last name
-    # Email dạng: first.last@domain  (vd: john.smith@gmail.com)
     return f"{username.split('_')[0]}.{username.split('_')[1]}@{random.choice(domains)}".lower()
 
 # ====== Generate data cho 1000 users ======
-users_data = []   # List để lưu dict thông tin từng user
+users_data = []
 
-for user_id in range(1, 1001):  # user_id từ 1 đến 1000
-    username = generate_username()      # tạo username ngẫu nhiên
-    password = generate_password()      # tạo password ngẫu nhiên
-    email = generate_email(username)    # tạo email từ username
+for user_id in range(1, 1001):  
+    username = generate_username()      
+    password = generate_password()      
+    email = generate_email(username)    
     
-    # Thêm 1 user (kiểu dict) vào list users_data
     users_data.append({
         'user_id': user_id,
         'username': username,
@@ -64,14 +54,12 @@ for user_id in range(1, 1001):  # user_id từ 1 đến 1000
 # ====== Ghi dữ liệu ra file CSV ======
 filename = 'users_expanded.csv'
 with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
-    # Định nghĩa tên các cột trong file CSV
     fieldnames = ['user_id', 'username', 'password', 'email']
-    # Tạo đối tượng writer dạng DictWriter (ghi từng dòng là 1 dict)
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
     
-    writer.writeheader()           # ghi dòng header (tên cột)
+    writer.writeheader()           
     for user in users_data:
-        writer.writerow(user)      # ghi từng user (dict) thành 1 dòng trong CSV
+        writer.writerow(user)      
 
 print(f" File '{filename}' đã được tạo thành công!")
 
@@ -82,6 +70,7 @@ for i in range(5):
     user = users_data[i]
     # In dạng CSV: user_id,username,password,email
     print(f"{user['user_id']},{user['username']},{user['password']},{user['email']}")
+    
 """
     Tạo file purchases_expanded.csv
 """
@@ -113,7 +102,6 @@ df = pd.DataFrame({
     'timestamp': [t.strftime("%Y-%m-%d %H:%M:%S") for t in timestamps]
 })
 
-# Xuất ra file CSV
 df.to_csv('purchases_expanded.csv', index=False, encoding='utf-8')
 print("File 'purchases_expanded.csv' đã được tạo thành công!")
 print(df.head())
@@ -145,12 +133,10 @@ for root_dir in root_dirs:
                 records.append((product_id.strip(), image_path))
 #Mục đích: thu thập tất cả file ảnh trong root_dirs và ánh xạ product_id → image_path.
 
-# 🔹 Tạo DataFrame chỉ có 2 cột ID sản phầm và đường đến dẫn file ảnh
 df = pd.DataFrame(records, columns=["product_id", "image_path"])
 
 output_path = "product_images_expanded.csv"
 df.to_csv(output_path, index=False, encoding="utf-8")
-# Lưu dữ liệu ra file để sử dụng sau này
 
 print(f"File '{output_path}' đã được tạo thành công ({len(df)} ảnh).")
 print(df.head()) 
@@ -306,4 +292,5 @@ df.to_csv(output_path, index=False, encoding="utf-8")
 
 print(f"\nĐã tạo file '{output_path}' thành công ({len(df)} dòng)!")
 print(df.head(10)[["product_id", "description", "color", "category", "price", "rating", "product_name"]])
+
 
