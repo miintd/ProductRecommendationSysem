@@ -12,7 +12,7 @@ import os
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-'''Hàm gợi ý dựa trên cộng tác với:'''
+'''Hàm gợi ý dựa trên hành vi mua sắm của người dùng khác có sở thích tương tự'''
 def collaborative_filtering(user_id: int, purchases: pd.DataFrame, products: pd.DataFrame) -> pd.DataFrame:
     logger.debug(f"Collaborative Filtering for user_id: {user_id}")
     user_purchases = purchases[purchases['user_id'] == user_id]['product_id'].unique()
