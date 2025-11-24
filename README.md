@@ -39,7 +39,60 @@ Recommended products are shown with images, names of products, prices, rates and
   - Find the idea for web design
   - Prepare data set (3 file csv remain)
 - Đào Minh Dũng: 16.5%
-  - Convert design to cart
+  - Convert design to code  
+  - Responsible for the product display module
+  - Responsible for displaying product images in the product listing
+  - Responsible for the main interface / landing page UI
+  - Responsible for the feedback interface
+- Phạm Thu Hường: 16.5%
+  - Prepare the slides for presentation 
+  - Responsible for:
+    - Post-processing and Result Visualization
+    - Running the Recommendation Algorithms
+    - Fetching User-Interacted Products
+## 3. Instructions for installing and running the program
+### Python version
+Python 3.10
+### Required libraries
+Install libraries from file 'requirements.txt'
+```bash
+pip install -r requirement
+```
+### Running the Application
+1. Clone repository
+```bash
+git clone https://github.com/miintd/Group_3_DSEB_66B_Product_Recommendation_System.git
+```
+2. Install dependencies
+```bash
+pip install -r requirement
+```
+3. Run Streamlit app
+```bash
+streamlit run web.py
+```
+## 4. App user manual
+First, user enter username and password to login. If you do not have an account, click register and fill these information: username, email and password.  
+Then, the screen display the selection box for the suggested algorithm and trending items, include their image, name, price, rating and category. If you already have an account, select a recommendation method (collaborative, content-based, hybrid, or multi-modal). If you are new user, our system recommend trending items. You can click 'View details' to see more information and add to your shopping cart or your favorite.  
+After choosing a recommendation method, the screen will display a list of suggested products based on that algorithm. Then the user can browse through each product and select the product they like and want to buy.  
+The shopping cart will be displayed on the left side of the screen and you can click the "checkout" button. However, we have not built a complete checkout page yet, as this is just a web simulation of how the 4 recommendation algorithms work.  
+Finally, users can send feedback to us so we can improve our website for better experiences.
+## 5. Website illustration
+### Login/Register
+![Login](image/dangnhap.jpg)
+![Register](image/dangky.jpg)
+### Homepage
+Display trending items for all users
+![Homepage](image/hienthisanpham.jpg)
+Select a recommendation method
+![Recommendation Systems](image/recommendation.jpg)
+### Recommended results
+Display recommended products based on the chosen method
+![Recommended Products](image/ketquagoiy.jpg)
+Click 'View details' to see more information
+![Detailed Information](image/thongtinsanpham.jpg)
+### Purchase and checkout
+Click 'Thêm vào giỏ hàng', the products will be added to the shopping cart
 ![Shopping Cart](image/themvaogiohang.jpg)
 ### Feedback
 ![Feedback](image/feedback.jpg)
