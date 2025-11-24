@@ -44,7 +44,6 @@ def content_based_filtering(user_id: int, purchases: pd.DataFrame, browsing_hist
         
         avg_rating = user_products['rating'].mean()
         recommendations['score'] = recommendations['rating']/5.0 * avg_rating
-        recommendations['score'] = recommendations['score'] / recommendations['score'].max()
     else:
         recommendations = pd.DataFrame(columns = ['product_id', 'product_name', 'price', 'rating', 'score', 'source'])
         logger.debug("No content-based recommendations.")
