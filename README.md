@@ -73,3 +73,12 @@ Then, the screen display the selection box for the suggested algorithm and trend
 After choosing a recommendation method, the screen will display a list of suggested products based on that algorithm. Then the user can browse through each product and select the product they like and want to buy.  
 The shopping cart will be displayed on the left side of the screen and you can click the "checkout" button. However, we have not built a complete checkout page yet, as this is just a web simulation of how the 4 recommendation algorithms work.  
 Finally, users can send feedback to us so we can improve our website for better experiences.
+## 5. Website illustration
+![Login](image/dangnhap.jpg)
+![Register](image/dangky.jpg)
+![Homepage](image/hienthisanpham.jpg)
+![Recommendation Systems](image/recommendation.jpg)
+![Recommended Products](image/ketquagoiy.jpg)
+![Detailed Information](image/thongtinsanpham.jpg)
+![Shopping Cart](image/themvaogiohang.jpg)
+![Feedback](image/feedback.jpg)
