@@ -80,7 +80,7 @@ pip install -r requirement
     - Open tranfer_final.py :
       - In the section that generates the file product_images_expanded.csv, update the         root_dirs variable to match the correct image folder paths on your computer.
   - Regenerate processed image CSV :
-    -Run tranfer_final.py:This will rebuild product_images_expanded.csv with the correct image paths.  
+    -Run Tranfer:This will rebuild product_images_expanded.csv with the correct image paths.  
   - Start the web application:
     - Open the terminal in the project folder   
       Run the command: 
