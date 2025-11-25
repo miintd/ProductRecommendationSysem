@@ -76,11 +76,11 @@ pip install -r requirement
         - list_attr_cloth.txt
         - list_description_inshop.json            
   - Update folder paths:
-    - Open tranfer_final.py
-    - Open tranfer_final.py :
+    - Open Tranfer.py
+    - Open Tranfer.py :
       - In the section that generates the file product_images_expanded.csv, update the         root_dirs variable to match the correct image folder paths on your computer.
   - Regenerate processed image CSV :
-    -Run Tranfer:This will rebuild product_images_expanded.csv with the correct image paths.  
+    -Run Tranfer.py:This will rebuild product_images_expanded.csv with the correct image paths.  
   - Start the web application:
     - Open the terminal in the project folder   
       Run the command: 
