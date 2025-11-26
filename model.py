@@ -103,8 +103,6 @@ class MultiModalModel(nn.Module):
 
         self.text_proj = nn.Linear(384, embedding_dim)
         
-        self.conv1 = GCNConv(embedding_dim, embedding_dim)
-        
         self.fusion = nn.Linear(embedding_dim * 3, embedding_dim)
 
     def forward(self, user_ids, product_ids, text_batch, edge_index, product_images_df=None):
